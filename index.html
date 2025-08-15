@@ -2,11 +2,37 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verš dne – Obrázek</title>
 </head>
 <body>
-  <img src="https://www.bible.com/_next/image?url=https%3A%2F%2Fimageproxy.youversionapi.com%2F640x640%2Fhttps%3A%2F%2Fs3.amazonaws.com%2Fstatic-youversionapi-com%2Fimages%2Fbase%2F100565%2F1280x1280.jpg%20&w=1920&q=75"
-       alt="Verš dne (Lukáš 1:49)"
-       style="max-width:100%; height:auto;">
+
+  <div id="verse-image-container" style="text-align: center;">
+    <!-- Obrázek se bude načítat sem -->
+  </div>
+
+  <script>
+    // URL obrázku, který chceme scrapnout (zadaný)
+    const imgUrl = "https://www.bible.com/_next/image?url=https%3A%2F%2Fimageproxy.youversionapi.com%2F640x640%2Fhttps%3A%2F%2Fs3.amazonaws.com%2Fstatic-youversionapi-com%2Fimages%2Fbase%2F100565%2F1280x1280.jpg%20&w=1920&q=75";
+
+    // Funkce pro zobrazení obrázku
+    function loadVerseImage() {
+      const container = document.getElementById('verse-image-container');
+
+      // Vytvoříme element <img> a nastavíme atribut src
+      const imgElement = document.createElement('img');
+      imgElement.src = imgUrl;
+      imgElement.alt = "Verš dne (Lukáš 1:49)";
+      imgElement.style.maxWidth = "100%";
+      imgElement.style.height = "auto";
+
+      // Přidáme obrázek do containeru
+      container.appendChild(imgElement);
+    }
+
+    // Zavoláme funkci pro zobrazení obrázku
+    loadVerseImage();
+  </script>
+
 </body>
 </html>
