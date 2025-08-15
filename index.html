@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse of the Day</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #verse-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bible Verse of the Day</h1>
+    <div id="verse-container">
+        <p class="loading">Načítám verš dne...</p>
+    </div>
+
+    <script>
+        async function fetchVerseOfTheDay() {
+            const container = document.getElementById('verse-container');
+            try {
+                // Use a CORS proxy to fetch the page
+                const proxyUrl = 'https://api.allorigins.win/get?url=';
+                const targetUrl = encodeURIComponent('https://www.bible.com/cs/verse-of-the-day');
+                const response = await fetch(proxyUrl + targetUrl);
+                const data = await response.json();
+                const html = data.contents;
+
+                // Parse the HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const img = doc.querySelector('img.rounded-0.5');
+
+                if (img) {
+                    const imgTag = document.createElement('img');
+                    imgTag.id = 'verse-image';
+                    imgTag.src = img.src;
+                    imgTag.alt = img.alt || 'Bible Verse of the Day';
+                    imgTag.width = 640;
+                    imgTag.height = 640;
+                    container.innerHTML = '';
+                    container.appendChild(imgTag);
+                } else {
+                    container.innerHTML = '<p class="error">Verš dne nebyl nalezen.</p>';
+                }
+            } catch (error) {
+                container.innerHTML = '<p class="error">Chyba při načítání verše dne.</p>';
+                console.error('Error:', error);
+            }
+        }
+
+        // Fetch the verse when the page loads
+        window.addEventListener('DOMContentLoaded', fetchVerseOfTheDay);
+    </script>
+</body>
+</html>
